@@ -6,7 +6,11 @@
 1. **Objetivo:** Crear un wokflow que simule los siguientes estados de CI/CD ``buid`` , ``test`` y ``push``. Para la simulación podemos usar echo para motrar por pantalla el estado del flujo.
 
 
-1. **Objetivo:** Generar una issue al abrir un pull request, debemos obtener información del comentario de la pull request y poder plasmarla en la issue generada.
+1. **Objetivo:** Generar una issue al abrir un pull request.
+    Opciones avanzadas:
+        - Auto asignarnos la issue
+        - Consguir tener una referencia en la issue de la pull request
+        - Conseguir que cuando cerremos la pull request la issue se cierre de forma automatica.(Pista  (URL)[https://docs.github.com/es/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword]
 
 
 1. **Objetivo:** Crear una calculadora. Mediante inputs donde nos permita indicar la operación y sus valores de entrada(mínimo 2) debemos acotar los inputs a valores validos. 
