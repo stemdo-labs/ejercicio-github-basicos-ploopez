@@ -1,8 +1,3 @@
-# initial-instructions
-
-Manten los apartados `Estructura del Repositorio` , `Contribución` y modifica el resto de apartados
-
-
 ## Ejercicios de Github Actions para iniciarse en el Mundo de DevOps
 
 ¡Bienvenido/a a los ejercicios básicos de Github Actions para iniciarse en el mundo de DevOps!
