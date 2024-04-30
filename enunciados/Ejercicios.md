@@ -17,7 +17,7 @@
         [URL](https://docs.github.com/es/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword)
 
 
-1. **Objetivo:** Crear una calculadora. Mediante inputs donde nos permita indicar la operación y sus valores de entrada(mínimo 2) debemos acotar los inputs a valores validos. 
+1. **Objetivo:** Crear una calculadora. Mediante inputs donde nos permita indicar la operación y sus valores de entrada(mínimo 2) debemos acotar los inputs a valores validos. La forma de abordar el problema es libre podemos utilizar workflow, actions, composite, scripts...
 
 
 1. **Objetivo:** Conseguir hacer login en azure con vuestras cuentas, primero utilizando comandos de bash y después utilizando actions del marketplace. Importante nunca dejar valores sensibles en plano.
