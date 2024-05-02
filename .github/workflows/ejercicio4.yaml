@@ -21,5 +21,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Request input numbers
+        id: input_numbers
+        run: |
+          echo "::set-output name=number_a::$(read -p 'Ingrese el primer valor: ' val_a && echo $val_a)"
+          echo "::set-output name=number_b::$(read -p 'Ingrese el segundo valor: ' val_b && echo $val_b)"
+
       - name: Run calculator script
-        run: python calculator.py ${{ github.event.inputs.operacion }} ${{ github.event.inputs.valor_a }} ${{ github.event.inputs.valor_b }}
+        run: python calculator.py ${{ github.event.inputs.operacion }} ${{ steps.input_numbers.outputs.number_a }} ${{ steps.input_numbers.outputs.number_b }}
