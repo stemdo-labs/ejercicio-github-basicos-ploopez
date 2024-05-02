@@ -23,7 +23,7 @@ jobs:
         run: |
           pr_action=$(jq -r ".action" "$GITHUB_EVENT_PATH")
           if [ "$pr_action" = "opened" ]; then
-            issue_number=$(gh issue create --title "Esto es un ejemplo de desarrollo de GA" --body "Aqui se podria escribir que es una prueba de desarrollo " --assignee @me --json number --jq '.number')
+            issue_number=$(gh issue create --title "Esto es un ejemplo de desarrollo de GA" --body "Aqui se podria escribir que es una prueba de desarrollo " --assignee @ploopez --json number --jq '.number')
             pr_title=$(jq -r ".pull_request.title" "$GITHUB_EVENT_PATH")
             pr_url=$(gh pr create --title "$pr_title" --body "Closes #$issue_number" --json url --jq '.url')
             echo "Pull request creado: $pr_url"
