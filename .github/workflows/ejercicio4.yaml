@@ -3,13 +3,14 @@ name: Calculator
 on:
   workflow_dispatch:
     inputs:
-      operacion:
-        description: 'Operación (suma, resta, multiplicacion, division)'
+      operation:
+        description: 'Operación a realizar (suma, resta, multiplicación, división)'
         required: true
-      valor_a:
+        default: 'suma'
+      value1:
         description: 'Primer valor'
         required: true
-      valor_b:
+      value2:
         description: 'Segundo valor'
         required: true
 
@@ -18,14 +19,35 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Request input numbers
-        id: input_numbers
+      - name: Check if operation is valid
         run: |
-          echo "::set-output name=number_a::$(read -p 'Ingrese el primer valor: ' val_a && echo $val_a)"
-          echo "::set-output name=number_b::$(read -p 'Ingrese el segundo valor: ' val_b && echo $val_b)"
+          operation="${{ github.event.inputs.operation }}"
+          if [ "$operation" != "suma" ] && [ "$operation" != "resta" ] && [ "$operation" != "multiplicacion" ] && [ "$operation" != "division" ]; then
+            echo "Operación inválida: $operation"
+            exit 1
+          fi
 
-      - name: Run calculator script
-        run: python calculator.py ${{ github.event.inputs.operacion }} ${{ steps.input_numbers.outputs.number_a }} ${{ steps.input_numbers.outputs.number_b }}
+      - name: Perform calculation
+        run: |
+          operation="${{ github.event.inputs.operation }}"
+          value1="${{ github.event.inputs.value1 }}"
+          value2="${{ github.event.inputs.value2 }}"
+          case "$operation" in
+            "suma")
+              result=$((value1 + value2))
+              ;;
+            "resta")
+              result=$((value1 - value2))
+              ;;
+            "multiplicacion")
+              result=$((value1 * value2))
+              ;;
+            "division")
+              if [ "$value2" -eq 0 ]; then
+                echo "Error: No se puede dividir por cero."
+                exit 1
+              fi
+              result=$(awk "BEGIN {printf \"%.2f\", $value1 / $value2}")
+              ;;
+          esac
+          echo "El resultado de $operation de $value1 y $value2 es: $result"
