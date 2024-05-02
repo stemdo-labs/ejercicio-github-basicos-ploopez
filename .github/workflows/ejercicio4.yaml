@@ -1,0 +1,25 @@
+name: Calculator
+
+on:
+  workflow_dispatch:
+    inputs:
+      operacion:
+        description: 'Operación (suma, resta, multiplicacion, division)'
+        required: true
+      valor_a:
+        description: 'Primer valor'
+        required: true
+      valor_b:
+        description: 'Segundo valor'
+        required: true
+
+jobs:
+  calculate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Run calculator script
+        run: python calculator.py ${{ github.event.inputs.operacion }} ${{ github.event.inputs.valor_a }} ${{ github.event.inputs.valor_b }}
