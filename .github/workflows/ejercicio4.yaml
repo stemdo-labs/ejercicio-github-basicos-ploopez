@@ -1,10 +1,6 @@
 name: Calculadora
 
 on:
-  push:
-    branches:
-      - main
-      - calculadora-ejercicio4
   workflow_dispatch:
     inputs:
       operacion:
