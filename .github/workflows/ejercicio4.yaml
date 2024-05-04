@@ -1,34 +1,28 @@
 name: Calculadora
 
 on:
-  push:
-    branches:
-      - main
-      - calculadora-ejercicio4
-  pull_request:
-    branches:
-      - main
-      - calculadora-ejercicio4
+  workflow_dispatch:
+    inputs:
+      operacion:
+        description: '+,-,*,/'
+        required: true
+        default: '+'
+      valor1:
+        description: 'Primer operando'
+        required: true
+      valor2:
+        description: 'Segundo operando'
+        required: true
 
 jobs:
   calcular:
     runs-on: ubuntu-latest
     steps:
-      - name: Ingresar operación y operandos
-        id: inputs
-        run: |
-          read -p "Operación (+,-,*,/): " operacion
-          read -p "Primer operando: " operando1
-          read -p "Segundo operando: " operando2
-          echo "::set-output name=operacion::$operacion"
-          echo "::set-output name=operando1::$operando1"
-          echo "::set-output name=operando2::$operando2"
-
       - name: Ejecutar calculadora
         run: |
-          operacion=${{ steps.inputs.outputs.operacion }}
-          operando1=${{ steps.inputs.outputs.operando1 }}
-          operando2=${{ steps.inputs.outputs.operando2 }}
+          operacion=${{ github.event.inputs.operacion }}
+          operando1=${{ github.event.inputs.valor1 }}
+          operando2=${{ github.event.inputs.valor2 }}
 
           # Validación de los operandos
           if ! [[ "$operacion" =~ ^[+*/-]$ ]]; then
