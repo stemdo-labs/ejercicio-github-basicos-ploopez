@@ -10,12 +10,15 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
-      
-      - name: Install GitHub CLI
-        uses: actions/setup-gh@v1
-        with:
-          gh-version: 2.1.0
-      
+
+      - name: Install gh CLI
+        shell: bash
+        run: |
+          sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
+          sudo apt-add-repository https://cli.github.com/packages
+          sudo apt update
+          sudo apt install gh
+
       - name: Create Issue on Pull Request
         id: create_issue
         run: |
