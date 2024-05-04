@@ -11,12 +11,16 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Install gh CLI
+      - name: Download gh CLI
+        shell: bash
         run: |
-          sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
-          sudo apt-add-repository https://cli.github.com/packages
-          sudo apt update
-          sudo apt install gh
+          wget https://github.com/cli/cli/releases/latest/download/gh_linux_amd64.tar.gz
+          tar -xf gh_linux_amd64.tar.gz
+          sudo mv gh_*/* /usr/local/bin/
+          rm -rf gh_linux_amd64.tar.gz gh_*
+
+      - name: Verify gh CLI installation
+        run: gh --version
 
       - name: Create Issue on Pull Request
         id: create_issue
