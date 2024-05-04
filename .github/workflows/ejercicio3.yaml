@@ -26,11 +26,11 @@ jobs:
       - name: Create Issue on Pull Request
         id: create_issue
         run: |
-          gh issue create --title "Automatically generated issue for PR #$GITHUB_PR_NUMBER" \
+          issue_number=$(gh issue create --title "Automatically generated issue for PR #$GITHUB_PR_NUMBER" \
                           --body "This issue is automatically generated when a pull request is opened. Assigning to @$GITHUB_ACTOR for review. PR reference: ${{ github.event.pull_request.html_url }}" \
-                          --assignee $GITHUB_ACTOR
-          echo "::set-output name=issue_number::$(gh issue list --state open --assignee $GITHUB_ACTOR --json number | jq '.[-1]')"
-
+                          --assignee $GITHUB_ACTOR | awk '{print $1}')
+          echo "::set-output name=issue_number::$issue_number"
+      
       - name: Close Issue on Pull Request Close
         if: github.event_name == 'pull_request' && github.event.action == 'closed'
         run: |
