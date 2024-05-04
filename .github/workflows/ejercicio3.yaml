@@ -1,37 +1,37 @@
-name: Auto Issue PR
+name: Generate Issue on Pull Request
 
 on:
   pull_request:
     types: [opened, closed]
 
 jobs:
-  issue_pr:
+  generate-issue:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
+      - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Install gh
-        run: |
-          sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
-          sudo apt-add-repository https://cli.github.com/packages
-          sudo apt update
-          sudo apt install gh
+      - name: Install GH CLI
+        uses: dev-hanz-ops/install-gh-cli-action@v0.1.0
+        with:
+          gh-cli-version: 2.32.0 # opcional, ver action.yml para la versión predeterminada actual
 
-      - name: Create or close issue based on PR action
+      - name: Set up environment variables
         run: |
-          pr_action=$(jq -r ".action" "$GITHUB_EVENT_PATH")
-          if [ "$pr_action" = "opened" ]; then
-            issue_number=$(gh issue create --title "Esto es un ejemplo de desarrollo de GA" --body "Aqui se podria escribir que es una prueba de desarrollo " --assignee @ploopez --json number --jq '.number')
-            pr_title=$(jq -r ".pull_request.title" "$GITHUB_EVENT_PATH")
-            pr_url=$(gh pr create --title "$pr_title" --body "Closes #$issue_number" --json url --jq '.url')
-            echo "Pull request creado: $pr_url"
-          elif [ "$pr_action" = "closed" ]; then
-            pr_merged=$(jq -r ".pull_request.merged" "$GITHUB_EVENT_PATH")
-            if [ "$pr_merged" = "true" ]; then
-              issue_number=$(jq -r ".pull_request.body | match(\"Closes #([0-9]+)\")" "$GITHUB_EVENT_PATH" | jq -r ".captures[0].string" | cut -d '#' -f 2)
-              gh issue close $issue_number
-              echo "Issue cerrada: #$issue_number"
-            fi
-          fi
+          echo "GH_TOKEN=${{ secrets.MY_GH_TOKEN }}" >> $GITHUB_ENV
+
+      - name: Verify gh CLI installation
+        run: gh --version
+
+      - name: Create Issue on Pull Request
+        id: create_issue
+        run: |
+          gh issue create --title "Automatically generated issue for PR #$GITHUB_PR_NUMBER" \
+                          --body "This issue is automatically generated when a pull request is opened. Assigning to @$GITHUB_ACTOR for review. PR reference: ${{ github.event.pull_request.html_url }}" \
+                          --assignee $GITHUB_ACTOR
+          echo "::set-output name=issue_number::$(gh issue list --state open --assignee $GITHUB_ACTOR --json number | jq '.[-1]')"
+
+      - name: Close Issue on Pull Request Close
+        if: github.event_name == 'pull_request' && github.event.action == 'closed'
+        run: |
+          gh issue close ${{ steps.create_issue.outputs.issue_number }}
