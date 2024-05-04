@@ -1,0 +1,55 @@
+name: Calculadora
+
+on:
+  workflow_dispatch: # Esto activa el flujo de trabajo manualmente
+
+jobs:
+  calcular:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Ingresar operación y operandos en el orden OPERACION N1 N2
+      id: inputs
+      run: |
+        echo "::set-output name=operacion::${{ github.event.inputs.operacion }}"
+        echo "::set-output name=operando1::${{ github.event.inputs.operando1 }}"
+        echo "::set-output name=operando2::${{ github.event.inputs.operando2 }}"
+
+    - name: Ejecutar calculadora
+      run: |
+        operacion=${{ steps.inputs.outputs.operacion }}
+        operando1=${{ steps.inputs.outputs.operando1 }}
+        operando2=${{ steps.inputs.outputs.operando2 }}
+
+        # Validación de los operandos
+        if ! [[ "$operando1" =~ ^[0-9]+$ ]]; then
+          echo "Error: El primer operando no es un número válido."
+          exit 1
+        fi
+
+        if ! [[ "$operando2" =~ ^[0-9]+$ ]]; then
+          echo "Error: El segundo operando no es un número válido."
+          exit 1
+        fi
+
+        # Realizar la operación
+        case $operacion in
+          "sumar")
+            resultado=$(echo "$operando1 + $operando2" | bc)
+            ;;
+          "restar")
+            resultado=$(echo "$operando1 - $operando2" | bc)
+            ;;
+          "multiplicar")
+            resultado=$(echo "$operando1 * $operando2" | bc)
+            ;;
+          "dividir")
+            resultado=$(echo "scale=2; $operando1 / $operando2" | bc)
+            ;;
+          *)
+            echo "Error: Operación no válida."
+            exit 1
+            ;;
+        esac
+
+        echo "Resultado: $resultado"
+          echo test, and deploy your project.
