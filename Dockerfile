@@ -1,8 +1,2 @@
-# Use an existing base image
-FROM alpine:latest
-
-# Install any necessary dependencies
-RUN apk update && apk add --no-cache bash
-
-# Define a default command to run when the container starts
-CMD ["echo", "Hello, world!"]
+FROM nginx:1.24-alpine
+COPY . /usr/share/nginx/html
