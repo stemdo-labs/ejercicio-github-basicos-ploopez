@@ -36,8 +36,11 @@ jobs:
           password: ${{ secrets.dh_password }}
 
       - name: Build container
-        run: |
-          docker build -t mysql:test .
-          docker push mysql:test
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: mysql:test
+
 
 
