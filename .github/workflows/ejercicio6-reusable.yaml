@@ -38,8 +38,7 @@ jobs:
       - name: Build and Push Image
         shell: bash
         run: |
-          docker build -t ${{ inputs.registry_username }}/app:${{ inputs.image_tag }} .
-          docker push ${{ inputs.registry_username }}/app:${{ inputs.image_tag }}
-  
-  
+          docker build -t ${{ secrets.dh_user }}/app:${{ inputs.tag }} .
+          docker push ${{ secrets.dh_user }}/app:${{ inputs.tag }}
+
   
