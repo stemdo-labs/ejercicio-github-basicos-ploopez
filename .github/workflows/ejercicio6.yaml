@@ -12,7 +12,7 @@ jobs:
           
   call-reusable-workflow:
     permissions: write-all 
-    uses: ./.github/workflows/ejercicio6-reusable.yml
+    uses: ./.github/workflows/ejercicio6-reusable.yaml
     with:
       image-to-build: nginx
       tag-app: ploopez/ngnixtest:latest
