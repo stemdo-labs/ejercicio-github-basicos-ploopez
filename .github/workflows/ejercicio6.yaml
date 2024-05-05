@@ -10,7 +10,7 @@ jobs:
       - uses: actions/checkout@v4
 
   call-reusable-docker:
-    uses: ./.github/workflows/ejercicio-6-reusable.yml
+    uses: ./.github/workflows/ejercicio6-reusable.yaml
     with:
       image: mysql
       tag: mysql:test
