@@ -10,9 +10,9 @@ on:
         required: true
         type: string
     secrets:
-      dhuser:
+      DH_USER:
         required: true
-      dhpass:
+      DH_PASSWORD:
         required: true
 
 permissions:
