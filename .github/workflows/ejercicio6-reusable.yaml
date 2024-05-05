@@ -38,7 +38,7 @@ jobs:
       - name: Build and Push Image
         shell: bash
         run: |
-          docker build -t ${{ secrets.dh_user }}/app:${{ inputs.tag }} .
+          docker build -t app:mysql:test .
           docker push ${{ secrets.dh_user }}/app:${{ inputs.tag }}
 
   
