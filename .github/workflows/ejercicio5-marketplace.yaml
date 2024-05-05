@@ -1,0 +1,20 @@
+on:
+  workflow_dispatch:
+
+name: Run Azure Login With a Service Principal Secret
+
+jobs:
+
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: List Azure Web Apps
+      run: az webapp list --query "[?state=='Running']"
+      env:
+        AZURE_SERVICE_PRINCIPAL: ${{ secrets.AZURE_CREDENTIALS }}
