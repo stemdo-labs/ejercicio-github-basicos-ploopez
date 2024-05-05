@@ -1,15 +1,21 @@
-name: Azure Login
+name: Azure Login with Bash
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
-  login:
+  login_with_bash:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
-      - name: Azure Login
+      
+      - name: Azure Login with Bash
+        env:
+          AZURE_SERVICE_PRINCIPAL_ID: ${{ secrets.CLIENT_ID }}
+          AZURE_SERVICE_PRINCIPAL_PASSWORD: ${{ secrets.CLIENT_SECRET }}
+          AZURE_TENANT_ID: ${{ secrets.TENANT_ID }}
         run: |
-          az login --service-principal -u ${{ secrets.CLIENT_ID }} -p ${{ secrets.CLIENT_SECRET }} --tenant ${{ secrets.TENANT_ID }}
+          az login --service-principal -u $AZURE_SERVICE_PRINCIPAL_ID -p $AZURE_SERVICE_PRINCIPAL_PASSWORD --tenant $AZURE_TENANT_ID
