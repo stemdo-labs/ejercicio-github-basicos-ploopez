@@ -10,9 +10,9 @@ on:
         required: true
         type: string
     secrets:
-      DH_USER:
+      dhuser:
         required: true
-      DH_PASSWORD:
+      dhpass:
         required: true
 
 permissions:
@@ -38,8 +38,8 @@ jobs:
       - name: Login to Dockerhub
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DH_USER }}
-          password: ${{ secrets.DH_PASSWORD }}
+          username: ${{ secrets.dhuser }}
+          password: ${{ secrets.dhpass }}
 
       - name: Build and Push Container
         uses: docker/build-push-action@v5
