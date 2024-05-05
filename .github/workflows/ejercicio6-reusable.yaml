@@ -36,11 +36,8 @@ jobs:
           password: ${{ secrets.dh_password }}
 
       - name: Build container
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: true
-          tags: ${{ inputs.tag }}
-          file: /dev/null  # Para indicar que no hay Dockerfile
-          image: alpine
+        run: |
+          docker build -t mysql:test .
+          docker push mysql:test
+
 
