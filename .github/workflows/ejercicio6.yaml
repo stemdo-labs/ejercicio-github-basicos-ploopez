@@ -17,5 +17,5 @@ jobs:
       image-to-build: nginx
       tag-app: ploopez/ngnixtest:latest
     secrets:
-      dhuser: ${{ secrets.DH_USERNAME }}
+      dhuser: ${{ secrets.DH_USER }}
       dhpass: ${{ secrets.DH_PASSWORD }}
