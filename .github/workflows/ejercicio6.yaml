@@ -1,17 +1,21 @@
+name: Ejercicio 6 
+
 on:
   workflow_dispatch:
-
+permissions: write-all 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
-
-  call-reusable-docker:
-    uses: ./.github/workflows/ejercicio6-reusable.yaml
+          
+  call-reusable-workflow:
+    permissions: write-all 
+    uses: ./.github/workflows/ejercicio6-reutilizable.yml
     with:
-      image: mysql
-      tag: mysql:test
+      image-to-build: nginx
+      tag-app: ploopez/ngnixtest:latest
     secrets:
-      dh_user: ${{ secrets.DH_USER }}
-      dh_password: ${{ secrets.DH_PASSWORD }}
+      dhuser: ${{ secrets.DH_USER }}
+      dhpass: ${{ secrets.DH_PASS }}
