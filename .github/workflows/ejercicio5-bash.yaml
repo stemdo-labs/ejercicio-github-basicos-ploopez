@@ -1,21 +1,23 @@
-name: Azure Login with Bash
+name: Run Azure Login with OpenID Connect
+on: [push]
 
-on:
-  push:
-    branches:
-      - main
-
-jobs:
-  login_with_bash:
+permissions:
+      id-token: write
+      contents: read
+      
+jobs: 
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      
-      - name: Azure Login with Bash
-        env:
-          AZURE_SERVICE_PRINCIPAL_ID: ${{ secrets.CLIENT_ID }}
-          AZURE_SERVICE_PRINCIPAL_PASSWORD: ${{ secrets.CLIENT_SECRET }}
-          AZURE_TENANT_ID: ${{ secrets.TENANT_ID }}
-        run: |
-          az login --service-principal -u $AZURE_SERVICE_PRINCIPAL_ID -p $AZURE_SERVICE_PRINCIPAL_PASSWORD --tenant $AZURE_TENANT_ID
+    - name: 'Az CLI login'
+      uses: azure/login@v1
+      with:
+          client-id: ${{ secrets.CLIENT_ID }}
+          tenant-id: ${{ secrets.TENANT_ID }}
+          subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
+  
+    - name: 'Run Azure CLI commands'
+      run: |
+          az account show
+          az group list
+          pwd
