@@ -35,12 +35,11 @@ jobs:
           username: ${{ secrets.dh_user }}
           password: ${{ secrets.dh_password }}
 
-      - name: Build container
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: true
-          tags: mysql:test
-
-
-
+      - name: Build and Push Image
+        shell: bash
+        run: |
+          docker build -t ${{ inputs.registry_username }}/app:${{ inputs.image_tag }} .
+          docker push ${{ inputs.registry_username }}/app:${{ inputs.image_tag }}
+  
+  
+  
