@@ -15,7 +15,6 @@ jobs:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: List Azure Web Apps
-      uses: azure/webapps-list@v1
-      with:
-        app-type: web
-        state: Running
+      run: az webapp list --query "[?state=='Running']"
+      env:
+        AZURE_SERVICE_PRINCIPAL: ${{ secrets.AZURE_CREDENTIALS }}
