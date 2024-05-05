@@ -34,11 +34,11 @@ jobs:
         with:
           username: ${{ secrets.dh_user }}
           password: ${{ secrets.dh_password }}
-
+          
       - name: Build and Push Image
         shell: bash
         run: |
-          docker build -t app:test .
+          docker build -t ${{ secrets.dh_user }}/app:${{ inputs.tag }} .
           docker push ${{ secrets.dh_user }}/app:${{ inputs.tag }}
 
   
